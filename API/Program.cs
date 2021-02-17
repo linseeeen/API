@@ -9,10 +9,19 @@ namespace API
         static void Main(string[] args)
         {
             RestClient client = new RestClient("https://pokeapi.co/api/v2");
-            RestRequest request = new RestRequest("pokemon/ditto");
+            string svar = Console.ReadLine();
+            RestRequest request = new RestRequest("pokemon/" + svar);
             IRestResponse response = client.Get(request);
-            Pokemon ditto = JsonConvert.DeserializeObject<Pokemon>(response.Content);
-            System.Console.WriteLine(ditto.name);
+            
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                System.Console.WriteLine("not found");
+            }
+            else
+            {
+                Pokemon ditto = JsonConvert.DeserializeObject<Pokemon>(response.Content);
+                System.Console.WriteLine(ditto.name);
+            }
             Console.ReadLine();
         }
     }
