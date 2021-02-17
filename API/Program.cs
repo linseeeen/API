@@ -1,4 +1,6 @@
 ﻿using System;
+using RestSharp;
+using Newtonsoft.Json;
 
 namespace API
 {
@@ -6,7 +8,12 @@ namespace API
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            RestClient client = new RestClient("https://pokeapi.co/api/v2");
+            RestRequest request = new RestRequest("pokemon/ditto");
+            IRestResponse response = client.Get(request);
+            Pokemon ditto = JsonConvert.DeserializeObject<Pokemon>(response.Content);
+            System.Console.WriteLine(ditto.name);
+            Console.ReadLine();
         }
     }
 }
